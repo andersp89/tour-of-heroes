@@ -1,21 +1,9 @@
 import { Component } from '@angular/core';
 import { Hero } from './hero';
 import { HeroDetailComponent } from './hero-detail.component';
+import { HeroService } from './hero.service';
+import { OnInit } from '@angular/core';
 
-
-// Array of heroes, of type Hero (from the class above)
-const HEROES: Hero[] = [
-  { id: 11, name: 'Mr. Nice' },
-  { id: 12, name: 'Narco' },
-  { id: 13, name: 'Bombasto' },
-  { id: 14, name: 'Celeritas' },
-  { id: 15, name: 'Magneta' },
-  { id: 16, name: 'RubberMan' },
-  { id: 17, name: 'Dynama' },
-  { id: 18, name: 'Dr IQ' },
-  { id: 19, name: 'Magma' },
-  { id: 20, name: 'Tornado' }
-];
 
 /*The AppComponent knows which hero to show: the hero that the user selected 
 from the list. The user's selection is in its selectedHero property.*/
@@ -91,18 +79,45 @@ from the list. The user's selection is in its selectedHero property.*/
     margin-right: .8em;
     border-radius: 4px 0 0 4px;
   }
-`]
+`],
+/* (2) We have to teach the injector how to make a HeroService by registering 
+a HeroService provider. */
+/*The providers array tells Angular to create a fresh instance of the HeroService 
+when it creates a new AppComponent. The AppComponent can use that service to get 
+heroes and so can every child component of its component tree.*/
+ providers: [HeroService]
 })
 
 export class AppComponent {
-  heroes = HEROES; //expose HEROES array below for binding. We did not have to define the heroes type. TypeScript can infer it from the HEROES array.
+  heroes: Hero[]; //expose HEROES array below for binding. We did not have to define the heroes type. TypeScript can infer it from the HEROES array.
   title = 'Tour of Heroes';
   selectedHero: Hero;
 
-// Add an onSelect method that sets the selectedHero property to the hero class.
+/* (1) The constructor itself does nothing. The parameter simultaneously defines a 
+private heroService property and identifies it as a HeroService injection site.
+Now Angular will know to supply an instance of the HeroService*/
+  constructor(private heroService: HeroService) { }
+
+/* We've got the service in a heroService private variable. Let's use it.
+We pause to think. We can call the service and get the data in one line.*/
+  getHeroes(): void {
+    this.heroes = this.heroService.getHeroes();
+  };
+
+/* AppComponent should fetch and display heroes without a fuss. 
+Where do we call the getHeroes method?  */
+/*We write an ngOnInit method with our initialization logic inside and 
+leave it to Angular to call it at the right time. In our case, we initialize by 
+calling getHeroes.*/
+  ngOnInit(): void {
+    this.getHeroes();
+  };
+
+  // Add an onSelect method that sets the selectedHero property to the hero class.
   onSelect(hero: Hero): void { 
   this.selectedHero = hero;
   }
-  
+
 }
+
 
