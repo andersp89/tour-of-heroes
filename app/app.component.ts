@@ -98,13 +98,19 @@ private heroService property and identifies it as a HeroService injection site.
 Now Angular will know to supply an instance of the HeroService*/
   constructor(private heroService: HeroService) { }
 
-/* We've got the service in a heroService private variable. Let's use it.
+/* (3) We've got the service in a heroService private variable. Let's use it.
 We pause to think. We can call the service and get the data in one line.*/
+
+/* (6) As a result of our change to HeroService, we're now setting this.heroes 
+to a Promise rather than an array of heroes.
+pass our callback function as an argument to the Promise's then method*/
+/* Our callback sets the component's heroes property to the array of heroes returned 
+by the service.*/
   getHeroes(): void {
-    this.heroes = this.heroService.getHeroes();
+   this.heroService.getHeroes().then(heroes => this.heroes = heroes);
   };
 
-/* AppComponent should fetch and display heroes without a fuss. 
+/* (4) AppComponent should fetch and display heroes without a fuss. 
 Where do we call the getHeroes method?  */
 /*We write an ngOnInit method with our initialization logic inside and 
 leave it to Angular to call it at the right time. In our case, we initialize by 

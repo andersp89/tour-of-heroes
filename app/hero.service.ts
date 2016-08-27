@@ -17,7 +17,24 @@ import { Hero } from './hero';
 
 @Injectable()
 export class HeroService {
-  getHeroes(): Hero[] {
+
+/* promise returning getheroes method*/
+getHeroes(): Promise<Hero[]> {
+  return Promise.resolve(HEROES);
+}
+
+getHeroesSlowly(): Promise<Hero[]> {
+  return new Promise<Hero[]>(resolve =>
+    setTimeout(resolve, 10000)) // delay 2 seconds
+    .then(() => this.getHeroes());
+}
+
+/* (5) Someday we're going to get heroes from a remote server. We don’t call http 
+yet, but we aspire to in later chapters. When we do, we'll have to wait for 
+the server to respond and we won't be able to block the UI while 
+we wait. We'll use Promises.*/
+/* old instant return  getHeroes(): Hero[] {
     return HEROES;
   }
+*/
 }
