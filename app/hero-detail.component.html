@@ -1,0 +1,11 @@
+  <!-- When there is no selectedHero, the ngIf directive removes the hero detail HTML from the DOM. There will be no hero detail elements and no bindings to worry about. -->
+<div *ngIf="hero">
+  <h2>{{hero.name}} details!</h2>
+  <div><label>id: </label>{{hero.id}}</div>
+  <div>
+    <label>name: </label>
+    <input [(ngModel)]="hero.name" placeholder="name"> 
+  </div>
+</div>
+  
+  <button (click)="goBack()">Back</button>

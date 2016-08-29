@@ -18,6 +18,9 @@ const appRoutes: Routes = [
   redirectTo: '/dashboard',
   pathMatch: 'full'
 },
+
+/* The colon (:) in the path indicates that :id is a placeholder to be filled with 
+a specific hero id when navigating to the HeroDetailComponent*/
 {
   path: 'detail/:id',
   component: HeroDetailComponent

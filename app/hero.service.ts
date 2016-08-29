@@ -37,4 +37,12 @@ we wait. We'll use Promises.*/
     return HEROES;
   }
 */
+
+/* Open HeroService and add a getHero method that filters the heroes list from getHeroes by id:*/
+
+getHero(id: number): Promise<Hero> {
+  return this.getHeroes()
+             .then(heroes => heroes.find(hero => hero.id === id));
+}
+
 }
