@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { HeroService } from './hero.service';
+import { Hero } from './hero';
 
 /*We create metadata with the @Component decorator where we specify the selector name that identifies this component's element. Then we export the class to make it available to other components.*/
 @Component({
@@ -15,7 +16,7 @@ export class HeroDetailComponent implements OnInit {
 //  hero: Hero;
 // NOT TO BE USED ANYMORE.
 
-
+@Input() hero: Hero;
 /*Let's have the ActivatedRoute service and the HeroService injected into the constructor, 
 saving their values in private fields*/
   constructor(
