@@ -10,19 +10,38 @@ Our HeroService could get Hero data from anywhere. It could get the data from a
 web service or local storage or from a mock data source.
 
 */
+import { Injectable }    from '@angular/core';
+import { Headers, Http } from '@angular/http';
 
-import { Injectable } from '@angular/core';
-import { HEROES } from './mock-heroes';
+import 'rxjs/add/operator/toPromise';
+
 import { Hero } from './hero';
 
 @Injectable()
 export class HeroService {
 
-/* promise returning getheroes method*/
+/* now using http server: */
+
+private heroesUrl = 'app/heroes';  // URL to web api
+
+constructor(private http: Http) { }
+
 getHeroes(): Promise<Hero[]> {
-  return Promise.resolve(HEROES);
+  return this.http.get(this.heroesUrl)
+             .toPromise()
+             .then(response => response.json().data as Hero[])
+             .catch(this.handleError);
 }
 
+
+
+/* promise returning getheroes method
+getHeroes(): Promise<Hero[]> {
+  return Promise.resolve(HEROES);
+}*/
+
+
+// not used, just to show how a delay feels:
 getHeroesSlowly(): Promise<Hero[]> {
   return new Promise<Hero[]>(resolve =>
     setTimeout(resolve, 10000)) // delay 2 seconds
@@ -33,7 +52,8 @@ getHeroesSlowly(): Promise<Hero[]> {
 yet, but we aspire to in later chapters. When we do, we'll have to wait for 
 the server to respond and we won't be able to block the UI while 
 we wait. We'll use Promises.*/
-/* old instant return  getHeroes(): Hero[] {
+/* old instant return  
+getHeroes(): Hero[] {
     return HEROES;
   }
 */
