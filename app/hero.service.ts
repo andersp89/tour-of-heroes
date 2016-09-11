@@ -13,6 +13,7 @@ web service or local storage or from a mock data source.
 import { Injectable }    from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
+//we convert observable to promise
 import 'rxjs/add/operator/toPromise';
 
 import { Hero } from './hero';
@@ -29,11 +30,20 @@ constructor(private http: Http) { }
 getHeroes(): Promise<Hero[]> {
   return this.http.get(this.heroesUrl)
              .toPromise()
+/* In the promise's then callback we call the json method of the HTTP Response to extract the data 
+within the response.*/
              .then(response => response.json().data as Hero[])
+// we catch server failures and pass them to an error handler:
              .catch(this.handleError);
 }
 
+private handleError(error: any): Promise<any> {
+  console.error('An error occurred', error); // for demo purposes only
+  return Promise.reject(error.message || error);
+}
 
+/* The Angular http.get returns an RxJS Observable. Observables are a powerful way to manage asynchronous 
+data flows. */
 
 /* promise returning getheroes method
 getHeroes(): Promise<Hero[]> {
