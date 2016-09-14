@@ -105,4 +105,7 @@ delete(id: number): Promise<void> {
     .catch(this.handleError);
 }
 
+/* Each Http service method returns an Observable of HTTP Response objects.
+Our HeroService converts that Observable into a Promise and returns the promise to the caller. */
+
 }
