@@ -72,6 +72,29 @@ calling getHeroes.*/
     this.router.navigate(['/detail', this.selectedHero.id]);
   }
 
+  // Function to handle the add button:
+  add(name: string): void {
+  name = name.trim();
+  if (!name) { return; }
+  this.heroService.create(name)
+    .then(hero => {
+      this.heroes.push(hero);
+      this.selectedHero = null;
+    });
+}
+
+//function to handle delete button
+/* Of course, we delegate hero deletion to the hero service, but the component is still responsible for 
+updating the display: it removes the deleted hero from the array and resets the selected hero if necessary.*/
+delete(hero: Hero): void {
+  this.heroService
+      .delete(hero.id)
+      .then(() => {
+        this.heroes = this.heroes.filter(h => h !== hero);
+        if (this.selectedHero === hero) { this.selectedHero = null; }
+      });
+}
+
 }
 
 

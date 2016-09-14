@@ -42,6 +42,12 @@ goBack(): void {
   window.history.back();
 }
 
+// To handle save button in template view
+save(): void {
+  this.heroService.update(this.hero)
+    .then(this.goBack);
+}
+
 }
 
 

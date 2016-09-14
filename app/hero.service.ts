@@ -75,4 +75,34 @@ getHero(id: number): Promise<Hero> {
              .then(heroes => heroes.find(hero => hero.id === id));
 }
 
+//update method to save changes to server.
+private headers = new Headers({'Content-Type': 'application/json'});
+
+update(hero: Hero): Promise<Hero> {
+  const url = `${this.heroesUrl}/${hero.id}`;
+  return this.http
+    .put(url, JSON.stringify(hero), {headers: this.headers})
+    .toPromise()
+    .then(() => hero)
+    .catch(this.handleError);
+}
+
+// create new hero in database:
+create(name: string): Promise<Hero> {
+  return this.http
+    .post(this.heroesUrl, JSON.stringify({name: name}), {headers: this.headers})
+    .toPromise()
+    .then(res => res.json().data)
+    .catch(this.handleError);
+}
+
+// The hero service's delete method uses the delete HTTP method to remove the hero from the server:
+delete(id: number): Promise<void> {
+  let url = `${this.heroesUrl}/${id}`;
+  return this.http.delete(url, {headers: this.headers})
+    .toPromise()
+    .then(() => null)
+    .catch(this.handleError);
+}
+
 }
